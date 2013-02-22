@@ -23,6 +23,8 @@ public class CleverClient
     public static void main(String args[])
     {
         getSchools();
+        getStudents();
+        
     }
     
     public static void getSchools()
@@ -46,7 +48,28 @@ public class CleverClient
             System.out.println(e.getMessage());
         }        
     }
-    
+
+    public static void getStudents()
+    {
+        JSONObject jsonObject = getJSONObject(CleverStudent.PATH);   
+
+        CleverStudent[] students=null;
+        try
+        {
+            JSONArray jsonArray = jsonObject.getJSONArray("data");    
+            int count = jsonArray.length();               
+            students = new CleverStudent[count];      
+            for(int i=0;i<count;i++)
+            {
+                CleverStudent student = CleverStudent.fromJsonObject(jsonArray.getJSONObject(0).getJSONObject("data"));
+                System.out.println(student.getFirstName());                
+                students[i]=student;            
+            }
+        }catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }        
+    }    
     
     public static JSONObject getJSONObject(String path)
     {
