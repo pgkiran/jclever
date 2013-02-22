@@ -1,4 +1,4 @@
 jclever
 =======
 
-Java Client for Clever
+Java Client for Clever (getClever.com) REST API 
