@@ -24,6 +24,7 @@ public class CleverClient
     {
         getSchools();
         getStudents();
+        getTeachers();
         
     }
     
@@ -51,26 +52,47 @@ public class CleverClient
 
     public static void getStudents()
     {
-        JSONObject jsonObject = getJSONObject(CleverStudent.PATH);   
-
+        JSONObject jsonObject = getJSONObject(CleverStudent.PATH);
+        
         CleverStudent[] students=null;
         try
         {
-            JSONArray jsonArray = jsonObject.getJSONArray("data");    
-            int count = jsonArray.length();               
-            students = new CleverStudent[count];      
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            int count = jsonArray.length();
+            students = new CleverStudent[count];
             for(int i=0;i<count;i++)
             {
                 CleverStudent student = CleverStudent.fromJsonObject(jsonArray.getJSONObject(0).getJSONObject("data"));
-                System.out.println(student.getFirstName());                
-                students[i]=student;            
+                System.out.println(student.getFirstName() + " "+ student.getLastName());
+                students[i]=student;
             }
         }catch(Exception e)
         {
             System.out.println(e.getMessage());
-        }        
-    }    
+        }
+    }
     
+    public static void getTeachers()
+    {
+        JSONObject jsonObject = getJSONObject(CleverTeacher.PATH);
+        
+        CleverTeacher[] teachers=null;
+        try
+        {
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            int count = jsonArray.length();
+            teachers = new CleverTeacher[count];
+            for(int i=0;i<count;i++)
+            {
+                CleverTeacher teacher = CleverTeacher.fromJsonObject(jsonArray.getJSONObject(0).getJSONObject("data"));
+                System.out.println(teacher.getLastName());
+                teachers[i]=teacher;
+            }
+        }catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
     public static JSONObject getJSONObject(String path)
     {
         String fullPath = CleverClient.getVersionedAPIURL()+path;
